@@ -124,6 +124,10 @@ jobs:
             npm ci
             npm run build
           popd
+          pushd examples/nodejs/mongodb-examples/simple-read-aside
+            npm ci
+            npm run build
+          popd
 
       - name: Send CI failure mail
         if: ${{ steps.validation.outcome == 'failure' }}

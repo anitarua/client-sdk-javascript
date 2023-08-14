@@ -61,6 +61,7 @@ import {TopicItem} from './messages/responses/topic-item';
 // AuthClient Response Types
 import * as GenerateAuthToken from './messages/responses/generate-auth-token';
 import * as RefreshAuthToken from './messages/responses/refresh-auth-token';
+import * as GenerateTemporaryAuthToken from './messages/responses/generate-temporary-auth-token';
 
 import {CacheInfo} from './messages/cache-info';
 import {
@@ -129,8 +130,11 @@ export {
   isTopicName,
   CacheSelector,
   TopicSelector,
+  CacheItemSelector,
   AllCaches,
   AllTopics,
+  AllItems,
+  CacheItem
 } from './auth/tokens/token-scope';
 
 export * as TokenScopes from './auth/tokens/token-scopes';
@@ -208,6 +212,7 @@ export {
   // AuthClient Response Types
   GenerateAuthToken,
   RefreshAuthToken,
+  GenerateTemporaryAuthToken,
   // Errors
   MomentoErrorCode,
   SdkError,

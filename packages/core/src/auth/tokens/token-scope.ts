@@ -6,6 +6,7 @@ export enum CacheRole {
 class All {}
 export const AllCaches = new All();
 export const AllTopics = new All();
+export const AllItems = new All();
 
 export interface CacheName {
   name: string;
@@ -15,16 +16,28 @@ export function isCacheName(cache: CacheName | All): cache is CacheName {
 }
 export type CacheSelector = All | CacheName | string;
 
+export interface CacheItem {
+  key: string;
+}
+export function isCacheItem(cacheItem: CacheName | All): cacheItem is CacheItem {
+  return 'key' in cacheItem;
+}
+export type CacheItemSelector = All | CacheItem | string;
+
 export interface CachePermission {
   role: CacheRole;
   /**
    * Scope the token permissions to select caches
    */
   cache: CacheSelector;
+  /**
+   * Scope the token permissions to select cache items
+   */
+  item: CacheItemSelector;
 }
 
 export function isCachePermission(p: Permission): boolean {
-  return 'role' in p && 'cache' in p && !('topic' in p);
+  return 'role' in p && 'cache' in p && 'item' in p && !('topic' in p);
 }
 
 export function asCachePermission(p: Permission): CachePermission {
@@ -82,7 +95,7 @@ export interface Permissions {
 
 export const AllDataReadWrite: Permissions = {
   permissions: [
-    {role: CacheRole.ReadWrite, cache: AllCaches},
+    {role: CacheRole.ReadWrite, cache: AllCaches, item: AllItems},
     {role: TopicRole.PublishSubscribe, cache: AllCaches, topic: AllTopics},
   ],
 };

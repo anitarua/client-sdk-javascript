@@ -146,6 +146,11 @@ export class InternalAuthClient implements IAuthClient {
       );
     });
   }
+
+  // generateTemporaryAuthToken(
+  //   scope: TokenScope,
+  //   expiresIn: ExpiresIn
+  // ): Promise<GenerateTemporaryAuthToken.Response> {}
 }
 
 export function permissionsFromScope(

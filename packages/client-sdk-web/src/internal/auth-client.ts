@@ -141,6 +141,11 @@ export class InternalWebGrpcAuthClient<
       );
     });
   }
+
+  // generateTemporaryAuthToken(
+  //   scope: TokenScope,
+  //   expiresIn: ExpiresIn
+  // ): Promise<GenerateTemporaryAuthToken.Response> {}
 }
 
 export function permissionsFromScope(

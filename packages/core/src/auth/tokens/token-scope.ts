@@ -138,7 +138,7 @@ export function isCacheItemKeyPrefix(
   return 'keyPrefix' in cacheItem;
 }
 
-export type CacheItemSelector = All | CacheItemKey | CacheItemKeyPrefix;
+export type CacheItemSelector = All | CacheItemKey | CacheItemKeyPrefix | string;
 
 export interface TemporaryTokenCachePermission extends CachePermission {
   /**

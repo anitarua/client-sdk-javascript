@@ -1,6 +1,7 @@
 export enum CacheRole {
   ReadWrite = 'readwrite',
   ReadOnly = 'readonly',
+  WriteOnly = 'writeonly',
 }
 
 class All {}
@@ -16,28 +17,16 @@ export function isCacheName(cache: CacheName | All): cache is CacheName {
 }
 export type CacheSelector = All | CacheName | string;
 
-export interface CacheItem {
-  key: string;
-}
-export function isCacheItem(cacheItem: CacheName | All): cacheItem is CacheItem {
-  return 'key' in cacheItem;
-}
-export type CacheItemSelector = All | CacheItem | string;
-
 export interface CachePermission {
   role: CacheRole;
   /**
    * Scope the token permissions to select caches
    */
   cache: CacheSelector;
-  /**
-   * Scope the token permissions to select cache items
-   */
-  item: CacheItemSelector;
 }
 
 export function isCachePermission(p: Permission): boolean {
-  return 'role' in p && 'cache' in p && 'item' in p && !('topic' in p);
+  return 'role' in p && 'cache' in p && !('topic' in p);
 }
 
 export function asCachePermission(p: Permission): CachePermission {
@@ -52,6 +41,7 @@ export function asCachePermission(p: Permission): CachePermission {
 export enum TopicRole {
   PublishSubscribe = 'publishsubscribe',
   SubscribeOnly = 'subscribeonly',
+  PublishOnly = 'publishonly',
 }
 
 export interface TopicName {
@@ -95,7 +85,7 @@ export interface Permissions {
 
 export const AllDataReadWrite: Permissions = {
   permissions: [
-    {role: CacheRole.ReadWrite, cache: AllCaches, item: AllItems},
+    {role: CacheRole.ReadWrite, cache: AllCaches},
     {role: TopicRole.PublishSubscribe, cache: AllCaches, topic: AllTopics},
   ],
 };
@@ -127,3 +117,65 @@ export type TokenScope =
   | typeof AllDataReadWrite
   | Permissions
   | PredefinedScope;
+
+export interface CacheItem {
+  key: string;
+  keyPrefix: string;
+}
+export function isCacheItem(
+  cacheItem: CacheItem | All
+): cacheItem is CacheItem {
+  return (
+    ('key' in cacheItem && !String(cacheItem).endsWith('*')) ||
+    ('keyPrefix' in cacheItem && String(cacheItem).endsWith('*'))
+  );
+}
+export type CacheItemSelector = All | CacheItem | string;
+
+export interface TemporaryTokenCachePermission extends CachePermission {
+  /**
+   * Scope the token permissions to select cache items
+   */
+  item: CacheItemSelector;
+}
+
+export function isTemporaryTokenCachePermission(p: Permission): boolean {
+  return 'role' in p && 'cache' in p && 'item' in p && !('topic' in p);
+}
+
+export function asTemporaryTokenCachePermission(
+  p: Permission
+): TemporaryTokenCachePermission {
+  if (!isTemporaryTokenCachePermission(p)) {
+    throw new Error(
+      `permission is not a TemporaryTokenCachePermission object: ${JSON.stringify(
+        p
+      )}`
+    );
+  }
+  return p as TemporaryTokenCachePermission;
+}
+
+export type TemporaryTokenScope =
+  | typeof AllDataReadWrite
+  | Permissions
+  | TemporaryTokenCachePermission
+  | PredefinedScope;
+
+function isTemporaryTokenPermissionObject(p: Permission): boolean {
+  return (
+    isCachePermission(p) ||
+    isTopicPermission(p) ||
+    isTemporaryTokenCachePermission(p)
+  );
+}
+
+export function isTempororayTokenPermissionsObject(
+  scope: TemporaryTokenScope
+): boolean {
+  if (!('permissions' in scope)) {
+    return false;
+  }
+  const permissions = scope.permissions;
+  return permissions.every(p => isTemporaryTokenPermissionObject(p));
+}

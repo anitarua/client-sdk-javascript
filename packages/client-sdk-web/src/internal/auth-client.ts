@@ -143,7 +143,7 @@ export class InternalWebGrpcAuthClient<
   }
 
   // generateTemporaryAuthToken(
-  //   scope: TokenScope,
+  //   scope: TemporaryTokenScope,
   //   expiresIn: ExpiresIn
   // ): Promise<GenerateTemporaryAuthToken.Response> {}
 }

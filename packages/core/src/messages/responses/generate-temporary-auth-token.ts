@@ -10,11 +10,7 @@ class _Success extends Response {
   readonly endpoint: string;
   readonly expiresAt: ExpiresAt;
 
-  constructor(
-    apiKey: string,
-    endpoint: string,
-    expiresAt: ExpiresAt
-  ) {
+  constructor(apiKey: string, endpoint: string, expiresAt: ExpiresAt) {
     super();
     this.authToken = encodeToBase64(
       JSON.stringify({endpoint: endpoint, api_key: apiKey})

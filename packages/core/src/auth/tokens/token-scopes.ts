@@ -4,19 +4,17 @@ import {
   TokenScope,
   TopicRole,
   TopicSelector,
-  CacheItemSelector,
-  AllItems
 } from './token-scope';
 
-export function cacheReadWrite(cacheSelector: CacheSelector, cacheItemSelector: CacheItemSelector = AllItems): TokenScope {
+export function cacheReadWrite(cacheSelector: CacheSelector): TokenScope {
   return {
-    permissions: [{role: CacheRole.ReadWrite, cache: cacheSelector, item: cacheItemSelector}],
+    permissions: [{role: CacheRole.ReadWrite, cache: cacheSelector}],
   };
 }
 
-export function cacheReadOnly(cacheSelector: CacheSelector, cacheItemSelector: CacheItemSelector = AllItems): TokenScope {
+export function cacheReadOnly(cacheSelector: CacheSelector): TokenScope {
   return {
-    permissions: [{role: CacheRole.ReadOnly, cache: cacheSelector, item: cacheItemSelector}],
+    permissions: [{role: CacheRole.ReadOnly, cache: cacheSelector}],
   };
 }
 

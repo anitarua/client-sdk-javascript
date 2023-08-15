@@ -148,7 +148,7 @@ export class InternalAuthClient implements IAuthClient {
   }
 
   // generateTemporaryAuthToken(
-  //   scope: TokenScope,
+  //   scope: TemporaryTokenScope,
   //   expiresIn: ExpiresIn
   // ): Promise<GenerateTemporaryAuthToken.Response> {}
 }

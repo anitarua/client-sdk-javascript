@@ -124,6 +124,7 @@ export {
   Permissions,
   AllDataReadWrite,
   TokenScope,
+  TemporaryTokenScope,
   CacheName,
   isCacheName,
   TopicName,
@@ -134,7 +135,8 @@ export {
   AllCaches,
   AllTopics,
   AllItems,
-  CacheItem
+  CacheItem,
+  isCacheItem,
 } from './auth/tokens/token-scope';
 
 export * as TokenScopes from './auth/tokens/token-scopes';

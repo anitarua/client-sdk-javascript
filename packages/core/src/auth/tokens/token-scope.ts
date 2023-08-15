@@ -118,19 +118,27 @@ export type TokenScope =
   | Permissions
   | PredefinedScope;
 
-export interface CacheItem {
+export interface CacheItemKey {
   key: string;
+}
+
+export interface CacheItemKeyPrefix {
   keyPrefix: string;
 }
-export function isCacheItem(
-  cacheItem: CacheItem | All
-): cacheItem is CacheItem {
-  return (
-    ('key' in cacheItem && !String(cacheItem).endsWith('*')) ||
-    ('keyPrefix' in cacheItem && String(cacheItem).endsWith('*'))
-  );
+
+export function isCacheItemKey(
+  cacheItem: CacheItemKey | All
+): cacheItem is CacheItemKey {
+  return 'key' in cacheItem;
 }
-export type CacheItemSelector = All | CacheItem | string;
+
+export function isCacheItemKeyPrefix(
+  cacheItem: CacheItemKeyPrefix | All
+): cacheItem is CacheItemKeyPrefix {
+  return 'keyPrefix' in cacheItem;
+}
+
+export type CacheItemSelector = All | CacheItemKey | CacheItemKeyPrefix;
 
 export interface TemporaryTokenCachePermission extends CachePermission {
   /**
